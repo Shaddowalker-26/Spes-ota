@@ -11,7 +11,7 @@ OTA_REPO_NAME = "spes-ota"
 DEVICE_CODENAME = "spes"
 
 # OTA repo path on server
-OTA_REPO_PATH = "/home/ubuntu/android/spes-ota"
+OTA_REPO_PATH = "/home/ubuntu/android/lineage/spes-ota"
 
 # Lineage build output path
 BUILD_OUTPUT_DIR = "/home/ubuntu/android/lineage/out/target/product/spes"
