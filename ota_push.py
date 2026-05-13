@@ -1,7 +1,6 @@
 import json
 import os
 import subprocess
-import time
 
 # =========================================================
 # CONFIGURATION
@@ -20,13 +19,23 @@ BUILD_OUTPUT_DIR = "/home/ubuntu/android/lineage/out/target/product/spes"
 # OTA JSON file
 JSON_FILE_PATH = os.path.join(OTA_REPO_PATH, "ota.json")
 
+# Build.prop path
+BUILD_PROP_PATH = os.path.join(
+    BUILD_OUTPUT_DIR,
+    "system/build.prop"
+)
+
 # =========================================================
 
 
 def find_latest_zip():
     zips = [
         f for f in os.listdir(BUILD_OUTPUT_DIR)
-        if f.endswith(".zip") and "ota" not in f.lower()
+        if (
+            f.endswith(".zip")
+            and "ota" not in f.lower()
+            and "incremental" not in f.lower()
+        )
     ]
 
     if not zips:
@@ -43,14 +52,26 @@ def find_latest_zip():
     return os.path.join(BUILD_OUTPUT_DIR, latest)
 
 
+def get_build_timestamp():
+    with open(BUILD_PROP_PATH, "r") as f:
+        for line in f:
+            if line.startswith("ro.build.date.utc="):
+                return int(line.strip().split("=")[1])
+
+    raise RuntimeError(
+        "Failed to find ro.build.date.utc in build.prop"
+    )
+
+
 def get_file_info(path):
+
     sha256 = subprocess.check_output(
         ["sha256sum", path]
     ).decode().split()[0]
 
     size = os.path.getsize(path)
 
-    timestamp = int(os.path.getmtime(path))
+    timestamp = get_build_timestamp()
 
     return sha256, size, timestamp
 
@@ -61,8 +82,8 @@ def update_json(
     size,
     timestamp,
     download_url,
-    tag
 ):
+
     filename = os.path.basename(rom_zip_path)
 
     version = filename.split("-")[1]
@@ -77,7 +98,10 @@ def update_json(
                 "size": size,
                 "url": download_url,
                 "version": version,
-                "changelog": f"https://raw.githubusercontent.com/{REPO_OWNER}/{OTA_REPO_NAME}/main/changelog.md"
+                "changelog": (
+                    f"https://raw.githubusercontent.com/"
+                    f"{REPO_OWNER}/{OTA_REPO_NAME}/main/changelog.md"
+                ),
             }
         ]
     }
@@ -99,7 +123,7 @@ def upload_and_push():
     print(f"📦 Latest ROM: {filename}")
 
     # =====================================================
-    # Upload release
+    # Upload GitHub Release
     # =====================================================
 
     print("🚀 Uploading to GitHub Releases...")
@@ -115,13 +139,13 @@ def upload_and_push():
         "--title",
         tag,
         "--notes",
-        f"Automatic OTA release for {DEVICE_CODENAME}"
+        f"Automatic OTA release for {DEVICE_CODENAME}",
     ]
 
     subprocess.run(upload_cmd, check=True)
 
     # =====================================================
-    # Generate OTA URL
+    # Generate OTA Download URL
     # =====================================================
 
     download_url = (
@@ -134,7 +158,9 @@ def upload_and_push():
     # Generate OTA JSON
     # =====================================================
 
-    sha256, size, timestamp = get_file_info(rom_zip_path)
+    sha256, size, timestamp = get_file_info(
+        rom_zip_path
+    )
 
     update_json(
         rom_zip_path,
@@ -142,7 +168,6 @@ def upload_and_push():
         size,
         timestamp,
         download_url,
-        tag
     )
 
     # =====================================================
@@ -155,7 +180,7 @@ def upload_and_push():
 
     subprocess.run(
         ["git", "add", "ota.json"],
-        check=True
+        check=True,
     )
 
     commit_message = f"OTA update: {tag}"
@@ -169,7 +194,7 @@ def upload_and_push():
 
     subprocess.run(
         ["git", "push"],
-        check=True
+        check=True,
     )
 
     print("✅ OTA update complete!")
