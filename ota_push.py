@@ -177,6 +177,12 @@ def upload_and_push():
     print("📤 Pushing OTA JSON update...")
 
     os.chdir(OTA_REPO_PATH)
+    
+    subprocess.run(
+    ["git", "checkout", "main"],
+    check=True,
+   )
+
 
     subprocess.run(
         ["git", "add", "ota.json"],
