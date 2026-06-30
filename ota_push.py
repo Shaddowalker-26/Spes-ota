@@ -89,48 +89,47 @@ def update_json(
     version = filename.split("-")[1]
 
     old_data = {
-    "response": [
-        {
-            "datetime": timestamp,
-            "filename": filename,
-            "id": sha256,
-            "romtype": "UNOFFICIAL",
-            "size": size,
-            "url": download_url,
-            "version": version,
-            "changelog": (
-                f"https://raw.githubusercontent.com/"
-                f"{REPO_OWNER}/{OTA_REPO_NAME}/main/changelog.md"
-            ),
-        }
-    ]
-}
-
-new_data = [
-    {
-        "datetime": timestamp,
-        "files": [
+        "response": [
             {
+                "datetime": timestamp,
                 "filename": filename,
-                "sha256": sha256,
+                "id": sha256,
+                "romtype": "UNOFFICIAL",
                 "size": size,
                 "url": download_url,
+                "version": version,
+                "changelog": (
+                    f"https://raw.githubusercontent.com/"
+                    f"{REPO_OWNER}/{OTA_REPO_NAME}/main/changelog.md"
+                ),
             }
-        ],
-        "type": "UNOFFICIAL",
-        "version": version,
+        ]
     }
-]
 
-with open("ota.json", "w") as f:
-    json.dump(old_data, f, indent=2)
+    new_data = [
+        {
+            "datetime": timestamp,
+            "files": [
+                {
+                    "filename": filename,
+                    "sha256": sha256,
+                    "size": size,
+                    "url": download_url,
+                }
+            ],
+            "type": "UNOFFICIAL",
+            "version": version,
+        }
+    ]
 
-with open("ota-v2.json", "w") as f:
-    json.dump(new_data, f, indent=2)
+    with open("ota.json", "w") as f:
+        json.dump(old_data, f, indent=2)
 
-print("✅ Updated ota.json")
-print("✅ Updated ota-v2.json")
+    with open("ota-v2.json", "w") as f:
+        json.dump(new_data, f, indent=2)
 
+    print("✅ Updated ota.json")
+    print("✅ Updated ota-v2.json")
 
 def upload_and_push():
 
