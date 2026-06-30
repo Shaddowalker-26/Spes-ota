@@ -1,0 +1,15 @@
+[
+  {
+    "datetime": 1782798545,
+    "files": [
+      {
+        "filename": "lineage-23.2-20260630-UNOFFICIAL-spes.zip",
+        "sha256": "f9d608011c128d1e2ca3610ae61f19fe4961a78fe10fcd4aa108b7c895c498e2",
+        "size": 1220762720,
+        "url": "https://github.com/Shaddowalker-26/spes-ota/releases/download/lineage-23.2-20260630-UNOFFICIAL-spes/lineage-23.2-20260630-UNOFFICIAL-spes.zip"
+      }
+    ],
+    "type": "UNOFFICIAL",
+    "version": "23.2"
+  }
+]
