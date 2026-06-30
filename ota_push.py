@@ -88,28 +88,48 @@ def update_json(
 
     version = filename.split("-")[1]
 
-    new_data = {
-        "response": [
+    old_data = {
+    "response": [
+        {
+            "datetime": timestamp,
+            "filename": filename,
+            "id": sha256,
+            "romtype": "UNOFFICIAL",
+            "size": size,
+            "url": download_url,
+            "version": version,
+            "changelog": (
+                f"https://raw.githubusercontent.com/"
+                f"{REPO_OWNER}/{OTA_REPO_NAME}/main/changelog.md"
+            ),
+        }
+    ]
+}
+
+new_data = [
+    {
+        "datetime": timestamp,
+        "files": [
             {
-                "datetime": timestamp,
                 "filename": filename,
-                "id": sha256,
-                "romtype": "UNOFFICIAL",
+                "sha256": sha256,
                 "size": size,
                 "url": download_url,
-                "version": version,
-                "changelog": (
-                    f"https://raw.githubusercontent.com/"
-                    f"{REPO_OWNER}/{OTA_REPO_NAME}/main/changelog.md"
-                ),
             }
-        ]
+        ],
+        "type": "UNOFFICIAL",
+        "version": version,
     }
+]
 
-    with open(JSON_FILE_PATH, "w") as f:
-        json.dump(new_data, f, indent=2)
+with open("ota.json", "w") as f:
+    json.dump(old_data, f, indent=2)
 
-    print(f"✅ Updated {JSON_FILE_PATH}")
+with open("ota-v2.json", "w") as f:
+    json.dump(new_data, f, indent=2)
+
+print("✅ Updated ota.json")
+print("✅ Updated ota-v2.json")
 
 
 def upload_and_push():
@@ -185,7 +205,7 @@ def upload_and_push():
 
 
     subprocess.run(
-        ["git", "add", "ota.json"],
+        ["git", "add", "ota.json", "ota-v2.json"],
         check=True,
     )
 
