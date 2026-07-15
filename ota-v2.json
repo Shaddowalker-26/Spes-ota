@@ -4,6 +4,7 @@
     "files": [
       {
         "filename": "lineage-23.2-20260715-UNOFFICIAL-spes.zip",
+        "os_sdk_level": 36,
         "sha256": "3d7ea200279563ea8328cd4c5eed411c2c1356ee50dfc234c9aee70788f30421",
         "size": 1221883270,
         "url": "https://github.com/Shaddowalker-26/spes-ota/releases/download/lineage-23.2-20260715-UNOFFICIAL-spes/lineage-23.2-20260715-UNOFFICIAL-spes.zip"
