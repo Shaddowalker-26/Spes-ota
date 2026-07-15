@@ -112,6 +112,7 @@ def update_json(
             "files": [
                 {
                     "filename": filename,
+                    "os_sdk_level": 36,
                     "sha256": sha256,
                     "size": size,
                     "url": download_url,
