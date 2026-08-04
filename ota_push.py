@@ -135,6 +135,7 @@ def update_json(
 def upload_and_push():
 
     rom_zip_path = find_latest_zip()
+    boot_img_path = os.path.join(BUILD_OUTPUT_DIR, "boot.img")
 
     filename = os.path.basename(rom_zip_path)
 
@@ -154,6 +155,7 @@ def upload_and_push():
         "create",
         tag,
         rom_zip_path,
+        boot_img_path,
         "--repo",
         f"{REPO_OWNER}/{OTA_REPO_NAME}",
         "--title",
