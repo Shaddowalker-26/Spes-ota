@@ -1,12 +1,12 @@
 {
   "response": [
     {
-      "datetime": 1785819644,
-      "filename": "lineage-23.2-20260804-UNOFFICIAL-spes.zip",
-      "id": "20c97226a1ab501aa06c7ea9d7270a42a7d3edb2ea80a809149e152528baf9cb",
+      "datetime": 1787575419,
+      "filename": "lineage-23.2-20260824-UNOFFICIAL-spes.zip",
+      "id": "1369a92979bb393daadcf25dcaf14c6deae9ab02ddfb8252ef2a829bf8d2702f",
       "romtype": "UNOFFICIAL",
-      "size": 1224075257,
-      "url": "https://github.com/Shaddowalker-26/spes-ota/releases/download/lineage-23.2-20260804-UNOFFICIAL-spes/lineage-23.2-20260804-UNOFFICIAL-spes.zip",
+      "size": 1224141885,
+      "url": "https://github.com/Shaddowalker-26/spes-ota/releases/download/lineage-23.2-20260824-UNOFFICIAL-spes/lineage-23.2-20260824-UNOFFICIAL-spes.zip",
       "version": "23.2",
       "changelog": "https://raw.githubusercontent.com/Shaddowalker-26/spes-ota/main/changelog.md"
     }
