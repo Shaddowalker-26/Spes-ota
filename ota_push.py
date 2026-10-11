@@ -110,9 +110,23 @@ def get_sdk_level():
 
 def get_lineage_version():
 
-    return get_build_property(
-        "ro.lineage.build.version"
-    )
+    try:
+        return get_build_property(
+            "ro.lineage.build.version"
+        )
+
+    except RuntimeError:
+        sdk_level = get_sdk_level()
+
+        if sdk_level == 37:
+            return "24.0"
+
+        elif sdk_level == 36:
+            return "23.2"
+
+        raise RuntimeError(
+            f"Unsupported SDK level: {sdk_level}"
+        )
 
 
 def get_release_type():
